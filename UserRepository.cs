@@ -1,13 +1,32 @@
 using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 public class UserRepository{
 
-    private static List<User> userList = new List<User>();
-    // Skapar en lista som heter userList dit användarna sparas
-    public static void AddUser(User user)
+    private readonly IMongoCollection<User> userCollection;
+    private IMongoDatabase database;
+    private MongoClient mongoClient;
+
+    public UserRepository()
     {
-        userList.Add(user);
+        this.mongoClient = new MongoClient("mongodb://localhost:27017");
+        this.database = this.mongoClient.GetDatabase("mongo");
+        this.userCollection = this.database.GetCollection<User>("Users");
+        // Kopplar till databasen
     }
-    // Här läggs användarna till i listan
-}
+        public  void AddUser(User user)
+    {
+        userCollection.InsertOne(user);
+    }
+        public void GetAllUsers()
+        {
+            
+        }
+
+
+    }
+    
+    
+    // Här läggs användarna till i databasen
