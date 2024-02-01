@@ -28,3 +28,4 @@ C:\Users\Start\Desktop\Backendutveckling\C#\Gruppuppgift\obj\Debug\net8.0\refint
 C:\Users\Start\Desktop\Backendutveckling\C#\Gruppuppgift\obj\Debug\net8.0\Gruppuppgift.pdb
 C:\Users\Start\Desktop\Backendutveckling\C#\Gruppuppgift\obj\Debug\net8.0\Gruppuppgift.genruntimeconfig.cache
 C:\Users\Start\Desktop\Backendutveckling\C#\Gruppuppgift\obj\Debug\net8.0\ref\Gruppuppgift.dll
+C:\Users\Start\Desktop\Backendutveckling\C#\Gruppuppgift\obj\Debug\net8.0\Gruppuppgift.sourcelink.json

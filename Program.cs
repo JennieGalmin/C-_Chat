@@ -4,6 +4,6 @@ class Program
 {
     static void Main(string[] args)
     {
-        Login.Start();
+        MainMeny.Meny();
     }
 }
