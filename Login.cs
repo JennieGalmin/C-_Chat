@@ -28,6 +28,9 @@ public class Login{
                     Console.WriteLine($"Välkommen {user.Username}");
                     isLoggedIn = true;
                     break;
+                    
+               } else {
+                Console.WriteLine("Du måste skriva något!");
                }
 
                
