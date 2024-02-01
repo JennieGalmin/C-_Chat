@@ -7,12 +7,13 @@ public class UserRegistration{
         string? password = Console.ReadLine();
 
         User newUser = new User
+        // skapar en ny User som ska sparas i en lista i databasen
         {
             Username = username,
             Password = password
         };
         
-        // userList.Add(newUser);
+        UserRepository.AddUser(newUser);
 
         Console.WriteLine("Ny användare är nu skapad");
     }

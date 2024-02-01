@@ -6,4 +6,4 @@ public class User : IUser
 }
 
 // En klass för att hämta Interfacet IUser, för att kunna 
-// använda det i Login klassen
+// använda det i klasser
