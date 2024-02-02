@@ -13,6 +13,7 @@ public class Login{
         var user =  userCollection.Find(combinedFilter).FirstOrDefault();
 
         // när jag loggar in med en användare får jag formatexaptionfel
+        
 
         if(user != null && password != null){
             Console.WriteLine($"Välkommen {username}");

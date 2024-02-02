@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Gruppuppgift")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+269a2828a8eefe8de97056a1b114da100404bc20")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b956b2ce9138d8b6c20264a8ede97f9db4d05eb1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Gruppuppgift")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Gruppuppgift")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

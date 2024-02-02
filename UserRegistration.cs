@@ -1,3 +1,9 @@
+using MongoDB.Driver;
+using MongoDB.Driver.Core.Authentication;
+using System;
+using System.Collections.Generic;
+using MongoDB.Bson;
+
 public class UserRegistration{
     public static void Register(){
         Console.WriteLine("Välj användarnamn");
@@ -17,5 +23,10 @@ public class UserRegistration{
         repository.AddUser(newUser);
         // lägger till en ny användare i repositoryt. 
         Console.WriteLine("Ny användare är nu skapad");
+
+        UserRepository userRepository = new UserRepository();
+        IMongoCollection<User> mongoCollection = userRepository.GetUserCollection();
+        MainMenu.Menu(mongoCollection);
+        
     }
 }
