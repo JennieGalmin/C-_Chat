@@ -16,6 +16,11 @@ public class UserRepository{
         this.userCollection = this.database.GetCollection<User>("Users");
         // Kopplar till databasen
     }
+
+    public IMongoCollection<User> GetUserCollection()
+    {
+        return userCollection;
+    }
         public  void AddUser(User user)
     {
         userCollection.InsertOne(user);

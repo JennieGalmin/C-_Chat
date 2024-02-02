@@ -1,9 +1,9 @@
 public class UserRegistration{
     public static void Register(){
-        Console.WriteLine("Skriv in nytt användarnamn");
+        Console.WriteLine("Välj användarnamn");
         string? username = Console.ReadLine();
 
-        Console.WriteLine("Skriv in nyy lösenord");
+        Console.WriteLine("Välj lösenord");
         string? password = Console.ReadLine();
 
         User newUser = new User
@@ -12,9 +12,10 @@ public class UserRegistration{
             Username = username,
             Password = password
         };
-        
-        UserRepository.AddUser(newUser);
-
+        UserRepository repository = new UserRepository();
+        // instans av UserRepository för att kunna lägga till newUser i den metoden
+        repository.AddUser(newUser);
+        // lägger till en ny användare i repositoryt. 
         Console.WriteLine("Ny användare är nu skapad");
     }
 }
