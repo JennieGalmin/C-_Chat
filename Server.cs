@@ -1,3 +1,4 @@
+
 using System.Net;
 using System.Net.Sockets;
 
@@ -27,8 +28,6 @@ public static void StartServer(){
 
         Console.WriteLine($"Request: {request}");
 
-
-        
     }
 }
 }
