@@ -36,9 +36,9 @@ public class Server{
         // gör så att bytes som kommer in från client blir till string format
 
         if( message != null){
-            Console.WriteLine($"Request: {message}");
+            Console.WriteLine($"Request: {message}{login.GetUsername()}");
             string response = $"{login.GetUsername()} ";
-                    // svaret i en string
+                   
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(response);   
             client.Send(buffer);  
             client.Close();   

@@ -1,19 +1,19 @@
 public class UserRegistration{
     public static void Register(){
-        Console.WriteLine("Skriv in nytt användarnamn");
+        Console.WriteLine("Registrera användarnamn");
         string? username = Console.ReadLine();
 
-        Console.WriteLine("Skriv in nyy lösenord");
+        Console.WriteLine("Registrera lösenord");
         string? password = Console.ReadLine();
 
         User newUser = new User
-        // skapar en ny User som ska sparas i en lista i databasen
         {
             Username = username,
             Password = password
         };
-        
-        UserRepository.AddUser(newUser);
+        UserRepository userRepository = new UserRepository();
+
+        userRepository.AddUser(newUser);
 
         Console.WriteLine("Ny användare är nu skapad");
     }
