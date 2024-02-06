@@ -36,7 +36,7 @@ public class MainMenu{
             Console.WriteLine("Ange ditt lösenord");
             string? password = Console.ReadLine();
 
-            bool isAuthUser = login.AuthUser(username, password);
+            
             // ska in en if sats här för att antingen fortsätta applikationen eller 
             // felmeddelande om inlogg misslyckas
             break;
@@ -48,7 +48,7 @@ public class MainMenu{
             break;
 
             case "3":
-            Console.WriteLine("Du valde att ansluta, hejdå!");
+            Console.WriteLine("Du valde att avsluta, hejdå!");
             Environment.Exit(0);
             break;
         }

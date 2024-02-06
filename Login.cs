@@ -1,7 +1,9 @@
 using System;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Authentication;
 public class Login{
     private readonly IMongoCollection<User> userCollection;
+    private string username;
     public Login(IMongoCollection<User> userCollection){
         this.userCollection = userCollection;
     }
@@ -22,5 +24,7 @@ public class Login{
             return false;
         }
     }
-     
+     public string GetUsername(){
+        return username;
+     }
     }
