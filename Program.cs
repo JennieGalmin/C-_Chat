@@ -13,6 +13,6 @@ class Program
         IMongoCollection<User> mongoCollection = userRepository.GetUserCollection();
         //MainMenu.Menu(mongoCollection);
 
-        Server.StartServer(mongoCollection);
+        Server.StartServer();
     }
 }
