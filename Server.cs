@@ -1,13 +1,20 @@
 
+using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 using MongoDB.Driver;
-
 
 public class Server{
     private static List<Socket> clients = new List<Socket>();
-    public static void StartServer(){
+    private static Login login;
+    public void StartServer(){
 
+    UserRepository userRepository = new UserRepository();
+    IMongoCollection<User> mongoCollection = userRepository.GetUserCollection();
+    Login login = new Login(mongoCollection);
+    
     IPAddress ipAddress = new IPAddress(new byte[] {127, 0, 0, 1});
     IPEndPoint ipEndpoint = new IPEndPoint(ipAddress, 25500);
     // skriver vilken ipAddress och Enpoint jag har valt
@@ -29,25 +36,37 @@ public class Server{
 
         clients.Add(client);
         // för att lägga till klienterna
+
+        System.Threading.Thread authThread = new System.Threading.Thread(()=>{
+            login.AuthenticateClient(client);
+        });
+        authThread.Start();
+        // Borde kunna logga in som klient nu..
        
-        byte[] buffer = new byte [5000];
-        // hämtar in bytes från klient
-        int read = client.Receive(buffer);
-        // sparar det i en variabel
-        string credentials = System.Text.Encoding.UTF8.GetString(buffer, 0, read);
-        // gör om svaret till en string (från bytes)
-        string[] parts = credentials.Split(':');
-        // sparar svaret i en array och splitar svaret
-        string username = parts[0];
-        // vill nå det första objektet i parts arrayen
-        string response = $"Välkommen {username}";
-        
-        byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(response);
-        client.Send(responseBuffer);
-        // skickar meddelandet till klienten
-        client.Close();
-        }
+    
+        // startar en tråd som lyssnar på meddelanden från andra användare. 
+        System.Threading.Thread receiveThread = new System.Threading.Thread(() => {
+            while(true){
+                byte[] messageBuffer = new byte[5000];
+                int messageRead = client.Receive(messageBuffer);
+                string message = System.Text.Encoding.UTF8.GetString(messageBuffer, 0, messageRead);
+
+                byte[] sendMessageBuffer = System.Text.Encoding.UTF8.GetBytes($"{username}:{message}");
+                foreach(Socket otherClients in clients){
+                if(otherClients != client){
+                string notification = $"{username} har loggat in!";
+                byte[] notificationBuffer = System.Text.Encoding.UTF8.GetBytes(notification);
+                otherClients.Send(notificationBuffer);
+                otherClients.Send(sendMessageBuffer);
+            }// foreach loop för att skicka meddelande till alla andra användare som är inloggade att en viss
+            // user har loggat in
+            }
+            }
+        });
+        receiveThread.Start();
+        //client.Close();
+         } 
+         }
        
     }
 
-}

@@ -25,11 +25,6 @@ public class UserRepository{
     {
         userCollection.InsertOne(user);
     }
-        public void GetAllUsers()
-        {
-            
-        }
-
 
     }
     
