@@ -12,7 +12,7 @@ class Program
         UserRepository userRepository = new UserRepository();
         IMongoCollection<User> mongoCollection = userRepository.GetUserCollection();
         //MainMenu.Menu(mongoCollection);
-
-        Server.StartServer();
+        Server server = new Server();
+        server.StartServer();
     }
 }

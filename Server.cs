@@ -1,14 +1,9 @@
-
-using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
-using System.Threading.Tasks;
 using MongoDB.Driver;
 
 public class Server{
     private static List<Socket> clients = new List<Socket>();
-    private static Login login;
     public void StartServer(){
 
     UserRepository userRepository = new UserRepository();
@@ -37,7 +32,7 @@ public class Server{
         clients.Add(client);
         // för att lägga till klienterna
 
-        System.Threading.Thread authThread = new System.Threading.Thread(()=>{
+        Thread authThread = new Thread(()=>{
             login.AuthenticateClient(client);
         });
         authThread.Start();
@@ -45,7 +40,8 @@ public class Server{
        
     
         // startar en tråd som lyssnar på meddelanden från andra användare. 
-        System.Threading.Thread receiveThread = new System.Threading.Thread(() => {
+        Thread receiveThread = new Thread((object usernameObj) => {
+            string username = (string)usernameObj;
             while(true){
                 byte[] messageBuffer = new byte[5000];
                 int messageRead = client.Receive(messageBuffer);
