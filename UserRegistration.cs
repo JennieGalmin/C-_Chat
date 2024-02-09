@@ -1,20 +1,27 @@
+using MongoDB.Driver;
+using System.Net.Sockets;
+using System.Text;
+
+
 public class UserRegistration{
-    public static void Register(){
-        Console.WriteLine("Registrera användarnamn");
-        string? username = Console.ReadLine();
+    public void Register(Socket client){
 
-        Console.WriteLine("Registrera lösenord");
-        string? password = Console.ReadLine();
+    byte[] registerBuffer = new byte[1024];
+    int bytesRead = client.Receive(registerBuffer);
+    string requestData = Encoding.UTF8.GetString(registerBuffer, 0, bytesRead);
 
-        User newUser = new User
-        {
-            Username = username,
-            Password = password
-        };
-        UserRepository userRepository = new UserRepository();
+    string[] parts = requestData.Split(':');
+    if(parts.Length != 2){
+        Console.WriteLine("Du måste skriva in både användarnamn och lösenord");
+        return;
+    }
+    string username = parts[0];
+    string password = parts[1];
 
-        userRepository.AddUser(newUser);
+    UserRepository userRepository = new UserRepository();
+    User AddNewUser = new User{Username = username, Password = password};
+    userRepository.AddUser(AddNewUser);
 
-        Console.WriteLine("Ny användare är nu skapad");
+    Console.WriteLine("Användaren har lagts till i databasen");
     }
 }
