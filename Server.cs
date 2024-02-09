@@ -4,12 +4,12 @@ using MongoDB.Driver;
 
 public class Server{
     private static List<Socket> clients = new List<Socket>();
-
     public void StartServer(){
 
     UserRepository userRepository = new UserRepository();
     IMongoCollection<User> mongoCollection = userRepository.GetUserCollection();
     Login login = new Login(mongoCollection);
+   
     
     IPAddress ipAddress = new IPAddress(new byte[] {127, 0, 0, 1});
     IPEndPoint ipEndpoint = new IPEndPoint(ipAddress, 25500);
@@ -36,36 +36,56 @@ public class Server{
         clients.Add(client);
         // för att lägga till klienterna
         Thread clientThread = new Thread(() =>
-        login.AuthenticateClient(client)
+        HandleClient(client)
         // skrapar en tråd för inloggning
         );
         clientThread.Start();
-       
-       foreach(Socket nrClient in clients)
-       {
-        if(nrClient.Poll(0, SelectMode.SelectRead)){
-      
-                byte[] messageBuffer = new byte[5000];
-                int messageRead = client.Receive(messageBuffer);
-                string message = System.Text.Encoding.UTF8.GetString(messageBuffer, 0, messageRead);
-                Console.WriteLine("Message from client: " + message);
-
-
-              /*  byte[] sendMessageBuffer = System.Text.Encoding.UTF8.GetBytes($"{username}:{message}");
-                foreach(Socket otherClients in clients){
-                if(otherClients != client){
-                string notification = $"{username} har loggat in!";
-                byte[] notificationBuffer = System.Text.Encoding.UTF8.GetBytes(notification);
-                otherClients.Send(notificationBuffer);
-                otherClients.Send(sendMessageBuffer);*/
-            }// foreach loop för att skicka meddelande till alla andra användare som är inloggade att en viss
-            
-            }
-            } 
             }
         }
        
-         } 
+        } 
+        private void HandleClient(Socket client){
+            UserRegistration userRegistration = new UserRegistration();
+
+            while(true){
+                if(client.Poll(0, SelectMode.SelectRead)){
+                    byte[] buffer = new byte[1024];
+                    int bytesRead = client.Receive(buffer);
+                    string requestData = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
+               
+                string[] parts = requestData.Split(':');
+                if(parts.Length != 2){
+                Console.WriteLine("Du måste skriva in både användarnamn och lösenord");
+                return;
+                }
+                string username = parts[0];
+                string password = parts[1];
+               
+               Thread registerThread = new Thread(() =>
+               {
+                userRegistration.Register(client, username, password);
+               
+              
+            
+                string response = "Användare är nu registrerad";
+                byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(response);
+                client.Send(responseBuffer);
+                });
+                
+                registerThread.Start();
+               } }
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+              
+     
          
 
     
